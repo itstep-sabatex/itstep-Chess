@@ -52,8 +52,9 @@ namespace WebChess.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserWhite = table.Column<string>(nullable: true),
-                    UserBlack = table.Column<string>(nullable: true),
+                    User1 = table.Column<string>(nullable: true),
+                    User2 = table.Column<string>(nullable: true),
+                    WhiteUser = table.Column<string>(nullable: true),
                     StartDate = table.Column<DateTime>(nullable: false),
                     LastParty = table.Column<int>(nullable: true)
                 },

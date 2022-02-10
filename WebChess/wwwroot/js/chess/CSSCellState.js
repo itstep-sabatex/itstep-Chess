@@ -4,3 +4,7 @@
     static chessCellDestinationMark = "chessCellDestinationMark";
     static figureMustFight = "canBeat";
 }
+
+export class chessId {
+    static mainElement = 'chessDesk';
+}

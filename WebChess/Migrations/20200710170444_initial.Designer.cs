@@ -9,7 +9,7 @@ using WebChess.Data;
 namespace WebChess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200707174507_initial")]
+    [Migration("20200710170444_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -226,10 +226,13 @@ namespace WebChess.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserBlack")
+                    b.Property<string>("User1")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserWhite")
+                    b.Property<string>("User2")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WhiteUser")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

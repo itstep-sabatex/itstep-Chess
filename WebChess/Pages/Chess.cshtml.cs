@@ -20,38 +20,54 @@ namespace WebChess.Pages
     [Authorize]
     public class ChessModel : PageModel
     {
-        public int Party { get; set; }
-        public string UserBlack { get; set; }
+        public int? Party { get; set; }
         public string InitialDesk { get; set; }
+
+        public string  WhiteUser { get; set; }
+        public string User1 { get; set; }
+        public string User2 { get; set; }
 
 
         ApplicationDbContext dbContext;
         public ChessModel(ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
+            Party = null;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            var party = Request.Cookies.SingleOrDefault(s => s.Key == "party");
-            if (party.Value == null) return RedirectToPage("/SelectParty");
             // check player
-            Party = int.Parse(party.Value);
-            var cp = await dbContext.ChessParties.SingleAsync(s => s.Id == Party);
-            UserBlack = cp.UserBlack;
-            var parties = await dbContext.DeskStates.Where(p => p.ChessPartyId == Party).ToArrayAsync();
-            if (parties.Length != 0)
+            if (int.TryParse(Request.Cookies.SingleOrDefault(s => s.Key == "party").Value, out int party))
             {
-                int last = parties.Max(s=>s.Id);//.LastOrDefault();
-            } else
-            {
-                var desk = new ChessDesk();
-                InitialDesk = System.Text.Json.JsonSerializer.Serialize(desk,new JsonSerializerOptions() {PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
-                
+                var cp = await dbContext.ChessParties.SingleOrDefaultAsync(s => s.Id == party);
+                if (cp != null)
+                {
+                    User1 = cp.User1;
+                    User2 = cp.User2;
+                    WhiteUser = cp.WhiteUser;
+                    var parties = await dbContext.DeskStates.Where(p => p.ChessPartyId == Party).ToArrayAsync();
+                    if (parties.Length != 0)
+                    {
+                        int last = parties.Max(s => s.Id);//.LastOrDefault();
+                        var desk = await dbContext.DeskStates.SingleOrDefaultAsync(d => d.Id == last);
+                        InitialDesk = System.Text.Json.JsonSerializer.Serialize(desk.Desk, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+                    }
+                    else
+                    {
+                        var desk = new ChessDesk();
+                        InitialDesk = System.Text.Json.JsonSerializer.Serialize(desk, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+
+                    }
+
+                }
+
             }
-           
+            Response.Cookies.Delete("party");
             return Page();
-        }
+
+         }
 
         class moveData
         {
@@ -90,5 +106,36 @@ namespace WebChess.Pages
             return new JsonResult(desk);
 
         }
+    
+        public async Task<JsonResult> OnGetGameList()
+        {
+            var user = User.Identity.Name;
+            var result = new
+            {
+                myNewGame = await dbContext.ChessParties.SingleOrDefaultAsync(s => s.User1 == user && s.User2 == null),
+                myGames = await dbContext.ChessParties.Where(s => s.User1 == user && s.User2 != null).ToArrayAsync(),
+                myJoinGames = await dbContext.ChessParties.Where(s => s.User1 != null && s.User2 == user).ToArrayAsync(),
+                waitForJoin = await dbContext.ChessParties.Where(s => s.User1 != user &&  s.User2 == null).ToArrayAsync()
+            };
+            return new JsonResult(result);
+        }
+
+        public async Task<JsonResult> OnGetNewGame()
+        {
+            var user = User.Identity.Name;
+            var myNewGame = await dbContext.ChessParties.SingleOrDefaultAsync(s => s.User1 == user && s.User2 == null);
+            if (myNewGame == null)
+            {
+                myNewGame = new ChessParty()
+                {
+                    User1 = user
+                };
+                await dbContext.ChessParties.AddAsync(myNewGame);
+                await dbContext.SaveChangesAsync();
+            }
+            return new JsonResult(myNewGame);
+
+        }
+
     }
 }

@@ -8,6 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderThickness="1" BorderBrush="Black">
-        <Image  Source="Path  CurrentFigure." x:Name="fImage"></Image>
+        <Image  Source="Path  CurrentFigure" x:Name="fImage"></Image>
     </Border>
 </UserControl>

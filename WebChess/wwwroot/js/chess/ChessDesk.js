@@ -17,6 +17,7 @@ import { MoveState } from "./MoveState.js";
 import { CellPoint } from "./CellPoint.js";
 
 
+
 export function getCellElementByIndex(row, cell) {
     return document.getElementById("cell" + row + cell);
 }
@@ -28,6 +29,7 @@ export function setChessDesk(value) {
 
 export class ChessDesk {
     constructor(responseDesk) {
+        if (responseDesk == undefined) return;
         this.waitForResponse = true;
         this.desk = [];
         this.currentPlayer = responseDesk.currentPlayer;
@@ -43,7 +45,7 @@ export class ChessDesk {
                 this.desk.push(new Figure(f.color, f.figureType, canMoves));
             }
         }
-
+        this.isEnabled = true;
     }
     getCell(row, column) {
         return this.desk[row * 8 + column];

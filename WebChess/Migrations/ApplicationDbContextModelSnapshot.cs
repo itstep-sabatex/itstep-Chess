@@ -224,10 +224,13 @@ namespace WebChess.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserBlack")
+                    b.Property<string>("User1")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserWhite")
+                    b.Property<string>("User2")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WhiteUser")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
