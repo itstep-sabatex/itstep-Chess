@@ -22,3 +22,5 @@ JS/debug.log
 /WFChess/bin/Debug/net6.0-windows
 /WFChess/obj
 /ChessConsoleServer/bin/Debug/net6.0
+/Chess.Resources/obj
+/Chess.Resources/bin/Debug/net6.0
