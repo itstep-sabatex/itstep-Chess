@@ -19,3 +19,6 @@ JS/debug.log
 /WebChess/obj
 /ChessConsoleServer/obj
 /WebChess/bin
+/WFChess/bin/Debug/net6.0-windows
+/WFChess/obj
+/ChessConsoleServer/bin/Debug/net6.0

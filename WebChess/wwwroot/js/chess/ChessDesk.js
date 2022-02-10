@@ -149,27 +149,27 @@ export class ChessDesk {
         this.clearClassInDesk(CSSCellState.chessCellCanMove);
         this.waitForResponse = true;
 
-    //    //$.ajax({
-    //    //    type: "POST",
-    //    //    url: "/Chess?handler=move",
-    //    //    beforeSend: function (xhr) {
-    //    //        xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
-    //    //    },
-    //    //    data: msg,
-    //    //    contentType : "application/json; charset=utf-8",
-    //    //    dataType: "json",
-    //    //    success: function (response) {
-    //    //        //var dvItems = $("#dvPostItems");
-    //    //        //dvItems.empty();
-    //    //        //$.each(response, function (i, item) {
-    //    //        //    var $tr = $('<li>').append(item).appendTo(dvItems);
-    //    //        //});
-    //    //        let a = 10;
-    //    //    },
-    //    //    failure: function (response) {
-    //    //        alert(response);
-    //    //    }
-    //    //})
+        $.ajax({
+            type: "POST",
+            url: "/Chess?handler=move",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            data: msg,
+            contentType : "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                //var dvItems = $("#dvPostItems");
+                //dvItems.empty();
+                //$.each(response, function (i, item) {
+                //    var $tr = $('<li>').append(item).appendTo(dvItems);
+                //});
+                let a = 10;
+            },
+            failure: function (response) {
+                alert(response);
+            }
+        })
 
     }
 

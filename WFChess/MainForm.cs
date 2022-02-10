@@ -159,6 +159,7 @@ namespace WindowsFormsChess
                 BackColor = (i + j) % 2 == 0 ? Color.White : Color.Gray,
                 Dock = DockStyle.Fill,
                 SizeMode = PictureBoxSizeMode.StretchImage,
+                Margin = new Padding(0)
             };
             f.Click += Image_Click;
             f.DragEnter += cellDragEnter;
